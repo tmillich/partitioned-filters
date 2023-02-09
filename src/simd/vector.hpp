@@ -59,13 +59,13 @@ namespace filters::simd {
         template<size_t n_bits>
         forceinline
         V ror() const {
-            return Vector(boost::rotr(vector, n_bits));
+            return Vector(boost::core::rotr(vector, n_bits));
         }
 
         template<size_t n_bits>
         forceinline
         V rol() const {
-            return Vector(boost::rotl(vector, n_bits));
+            return Vector(boost::core::rotl(vector, n_bits));
         }
 
         forceinline
