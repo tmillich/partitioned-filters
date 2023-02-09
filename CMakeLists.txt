@@ -89,30 +89,30 @@ add_subdirectory(src)
 # ---------------------------------------------------------------------------
 
 install(
-        EXPORT PartitionedFiltersTargets
-        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/PartitionedFilters
-        NAMESPACE partitioned_filters::
-        FILE PartitionedFiltersTargets.cmake # Not sure if this is still needed
+    EXPORT PartitionedFiltersTargets
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/PartitionedFilters
+    NAMESPACE partitioned_filters::
+    FILE PartitionedFiltersTargets.cmake # Not sure if this is still needed
 )
 
 include(CMakePackageConfigHelpers)
 configure_package_config_file(
-        "cmake/Config.cmake.in"
-        "PartitionedFiltersConfig.cmake"
-        INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/PartitionedFilters
-        PATH_VARS
+    "cmake/Config.cmake.in"
+    "PartitionedFiltersConfig.cmake"
+    INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/PartitionedFilters
+    PATH_VARS
         CMAKE_INSTALL_LIBDIR
 )
 
 write_basic_package_version_file(
-        ${CMAKE_CURRENT_BINARY_DIR}/PartitionedFiltersConfigVersion.cmake
-        VERSION 1.0.0
-        COMPATIBILITY SameMajorVersion
+    ${CMAKE_CURRENT_BINARY_DIR}/PartitionedFiltersConfigVersion.cmake
+    VERSION 1.0.0
+    COMPATIBILITY SameMajorVersion
 )
 
 ### Install Config and ConfigVersion files
 install(
-        FILES "${CMAKE_CURRENT_BINARY_DIR}/PartitionedFiltersConfig.cmake"
-        "${CMAKE_CURRENT_BINARY_DIR}/PartitionedFiltersConfigVersion.cmake"
-        DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/PartitionedFilters"
+    FILES "${CMAKE_CURRENT_BINARY_DIR}/PartitionedFiltersConfig.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/PartitionedFiltersConfigVersion.cmake"
+    DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/PartitionedFilters"
 )
