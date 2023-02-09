@@ -177,12 +177,6 @@ if (ENABLE_BSD)
     target_compile_definitions(${library_name} PUBLIC ENABLE_BSD)
 endif ()
 
-set_target_properties(${library_name}
-        PROPERTIES
-        FRAMEWORK TRUE
-        MACOSX_RPATH ON
-        PUBLIC_HEADER "${SHARED_FILTER_SOURCES}")
-
 target_link_libraries(${library_name} PUBLIC ${FILTERS_LIBRARIES})
 
 add_library(${library_name}::${library_name} ALIAS ${library_name})
@@ -196,7 +190,6 @@ install(
 
 install(
     DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/" # source directory
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/partitioned_filters # target directory
-    FILES_MATCHING # install only matched files
-    PATTERN "*.hpp" # select header files
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ # target directory
+    FILES_MATCHING PATTERN "*.hpp" # select header files
 )
