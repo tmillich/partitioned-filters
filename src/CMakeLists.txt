@@ -173,7 +173,7 @@ if (NUMA_FOUND)
 endif (NUMA_FOUND)
 
 if (ENABLE_BSD)
-    list(APPEND FILTERS_LIBRARIES boost bsd)
+    list(APPEND FILTERS_LIBRARIES bsd)
     target_compile_definitions(${library_name} PUBLIC ENABLE_BSD)
 endif ()
 
