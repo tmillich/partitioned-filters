@@ -5,10 +5,13 @@ target_include_directories(${library_name} INTERFACE
         $<INSTALL_INTERFACE:..>
 )
 
+set_target_properties(${library_name} PROPERTIES PUBLIC_HEADER block_bloom_filter.h)
+
 add_library(filters::${library_name} ALIAS ${library_name})
 include(GNUInstallDirs)
 install(
         TARGETS ${library_name}
         EXPORT PartitionedFiltersTargets
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${library_name}
 )
