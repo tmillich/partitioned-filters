@@ -192,3 +192,11 @@ target_link_libraries(${library_name} PRIVATE boost)
 set_target_properties(${library_name} PROPERTIES CXX_STANDARD 14)
 set_target_properties(${library_name} PROPERTIES COMPILE_OPTIONS -fno-tree-vectorize)
 set_target_properties(${library_name} PROPERTIES COMPILE_OPTIONS -march=native)
+
+add_library(filters::${library_name} ALIAS ${library_name})
+include(GNUInstallDirs)
+install(
+        TARGETS ${library_name}
+        EXPORT PartitionedFiltersTargets
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+)
