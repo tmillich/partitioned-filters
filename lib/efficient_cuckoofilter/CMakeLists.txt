@@ -13,3 +13,9 @@ install(
         EXPORT PartitionedFiltersTargets
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
+
+install(
+        DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/" # source directory
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ # target directory
+        FILES_MATCHING PATTERN "*.h" # select header files
+)
