@@ -16,6 +16,6 @@ install(
 
 install(
         DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/" # source directory
-        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ # target directory
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${library_name} # target directory
         FILES_MATCHING PATTERN "*.h" # select header files
 )
