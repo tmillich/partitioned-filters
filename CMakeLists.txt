@@ -25,8 +25,8 @@ set(THREADS_PREFER_PTHREAD_FLAG ON)
 
 
 if (ENABLE_BSD)
-    set(CMAKE_C_COMPILER gcc)
-    set(CMAKE_CXX_COMPILER g++)
+   # set(CMAKE_C_COMPILER gcc)
+   # set(CMAKE_CXX_COMPILER g++)
 
     add_subdirectory(lib/bsd)
 endif ()
