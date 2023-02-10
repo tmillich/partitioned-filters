@@ -2,9 +2,10 @@
 
 #include <cstdint>
 #include <immintrin.h>
-#include <bit>
 #include <parameter/parameter.hpp>
 #include <compiler/compiler_hints.hpp>
+
+#include <boost/core/bit.hpp>
 
 namespace filters::simd {
 
@@ -58,13 +59,13 @@ namespace filters::simd {
         template<size_t n_bits>
         forceinline
         V ror() const {
-            return Vector(std::rotr(vector, n_bits));
+            return Vector(boost::core::rotr(vector, n_bits));
         }
 
         template<size_t n_bits>
         forceinline
         V rol() const {
-            return Vector(std::rotl(vector, n_bits));
+            return Vector(boost::core::rotl(vector, n_bits));
         }
 
         forceinline

@@ -10,13 +10,23 @@ set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" "${CMAKE_MODULE_PATH}")
 
 option(ENABLE_BSD "include Bloomfilter BSD Library" OFF)
 
-if (ENABLE_BSD)
-    set(CMAKE_C_COMPILER gcc)
-    set(CMAKE_CXX_COMPILER g++)
-    # add bsd library first so it can set it own compiler flags
-    set(BOOST_REQUESTED_VERSION "1.70.0")
-    include("${CMAKE_SOURCE_DIR}/vendor/boost.cmake")
+set(INSTALL_INCLUDE_DIRECTORY "partitioned_filters")
 
+# ---------------------------------------------------------------------------
+# Dependencies
+# ---------------------------------------------------------------------------
+
+find_package(Boost)
+find_package(Threads REQUIRED)
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+
+#include("${CMAKE_SOURCE_DIR}/vendor/googlebenchmark.cmake")
+#include("${CMAKE_SOURCE_DIR}/vendor/googletest.cmake")
+
+#include(cmake/coverage.cmake)
+
+
+if (ENABLE_BSD)
     add_subdirectory(lib/bsd)
 endif ()
 
@@ -29,18 +39,6 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -fno-tree-vectorize -mar
 set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} --coverage -fprofile-arcs -ftest-coverage -Wall -Wextra -march=native")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -static-libasan -static-libubsan -fsanitize=address -fsanitize=leak -fsanitize=undefined -Wall -Wextra -Wno-unused-function -march=native")
 
-# ---------------------------------------------------------------------------
-# Dependencies
-# ---------------------------------------------------------------------------
-
-find_package(Threads REQUIRED)
-set(THREADS_PREFER_PTHREAD_FLAG ON)
-
-include("${CMAKE_SOURCE_DIR}/vendor/googlebenchmark.cmake")
-include("${CMAKE_SOURCE_DIR}/vendor/googletest.cmake")
-
-include(cmake/coverage.cmake)
-
 
 # ---------------------------------------------------------------------------
 # Configuration
@@ -51,9 +49,6 @@ message(STATUS "[COMPILATION] settings")
 message(STATUS "    CMAKE_CXX_FLAGS_RELEASE         = ${CMAKE_CXX_FLAGS_RELEASE}")
 message(STATUS "    CMAKE_CXX_FLAGS_RELWITHDEBINFO  = ${CMAKE_CXX_FLAGS_RELWITHDEBINFO}")
 message(STATUS "    CMAKE_CXX_FLAGS_DEBUG           = ${CMAKE_CXX_FLAGS_DEBUG}")
-message(STATUS "[BOOST] settings")
-message(STATUS "    BOOST_INCLUDE_DIR               = ${BOOST_INCLUDE_DIR}")
-message(STATUS "    BOOST_LIBRARY_DIR               = ${BOOST_LIBRARY_DIR}")
 message(STATUS "[BENCHMARK] settings")
 message(STATUS "    BENCHMARK_INCLUDE_DIR           = ${BENCHMARK_INCLUDE_DIR}")
 message(STATUS "    BENCHMARK_LIBRARY_PATH          = ${BENCHMARK_LIBRARY_PATH}")
@@ -81,5 +76,38 @@ add_subdirectory(src)
 # Modules
 # ---------------------------------------------------------------------------
 
-add_subdirectory(test)
-add_subdirectory(benchmark)
+#add_subdirectory(test)
+#add_subdirectory(benchmark)
+
+# ---------------------------------------------------------------------------
+# Package
+# ---------------------------------------------------------------------------
+
+install(
+    EXPORT PartitionedFiltersTargets
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/PartitionedFilters
+    NAMESPACE partitioned_filters::
+    FILE PartitionedFiltersTargets.cmake # Not sure if this is still needed
+)
+
+include(CMakePackageConfigHelpers)
+configure_package_config_file(
+    "cmake/Config.cmake.in"
+    "PartitionedFiltersConfig.cmake"
+    INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/PartitionedFilters
+    PATH_VARS
+        CMAKE_INSTALL_LIBDIR
+)
+
+write_basic_package_version_file(
+    ${CMAKE_CURRENT_BINARY_DIR}/PartitionedFiltersConfigVersion.cmake
+    VERSION 1.0.0
+    COMPATIBILITY SameMajorVersion
+)
+
+### Install Config and ConfigVersion files
+install(
+    FILES "${CMAKE_CURRENT_BINARY_DIR}/PartitionedFiltersConfig.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/PartitionedFiltersConfigVersion.cmake"
+    DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/PartitionedFilters"
+)
