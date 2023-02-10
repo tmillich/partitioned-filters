@@ -10,6 +10,8 @@ set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" "${CMAKE_MODULE_PATH}")
 
 option(ENABLE_BSD "include Bloomfilter BSD Library" OFF)
 
+set(INSTALL_INCLUDE_DIRECTORY "partitioned_filters")
+
 # ---------------------------------------------------------------------------
 # Dependencies
 # ---------------------------------------------------------------------------
@@ -25,9 +27,6 @@ set(THREADS_PREFER_PTHREAD_FLAG ON)
 
 
 if (ENABLE_BSD)
-   # set(CMAKE_C_COMPILER gcc)
-   # set(CMAKE_CXX_COMPILER g++)
-
     add_subdirectory(lib/bsd)
 endif ()
 
